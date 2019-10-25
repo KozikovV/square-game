@@ -7,6 +7,8 @@ import { EndGameScreenComponent } from './components/end-game-screen/end-game-sc
 import { GameFieldComponent } from './components/game-field/game-field.component';
 import { GameSquareComponent } from './components/game-square/game-square.component';
 import { LeaderBoardComponent } from './components/leader-board/leader-board.component';
+import {HttpClientModule} from '@angular/common/http';
+import {GameStorageService} from './services/game-storage.service';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,10 @@ import { LeaderBoardComponent } from './components/leader-board/leader-board.com
     LeaderBoardComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [GameStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
