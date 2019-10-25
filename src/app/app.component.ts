@@ -7,13 +7,7 @@ import {GameStorageService} from './services/game-storage.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private gameService: GameStorageService
-  ) {}
-  title = 'square-game';
+  constructor() {}
 
-  ngOnInit(): void {
-    this.gameService.getLeaderBoard()
-      .subscribe(data => console.log(data));
-  }
+  ngOnInit(): void {}
 }
