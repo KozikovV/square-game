@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="btn-group" dropdown>
+    <button
+      id="button-animated"
+      dropdownToggle
+      type="button"
+      class="btn dropdown-toggle"
+      aria-controls="dropdown-animated">Pick game mode <span class="caret"></span>
+    </button>
+    <ng-container *ngIf="(gameSettings$ | async) as gameSettings">
+      <ul
+        id="dropdown-animated"
+        *dropdownMenu
+        class="dropdown-menu"
+        aria-labelledby="button-animated">
+        <li class="dropdown-item" (click)="setSettings(gameSettings.easyMode)">
+          <span>Delay time: {{ gameSettings.easyMode.delay }} and field size: {{ gameSettings.easyMode.field }}</span>
+        </li>
+        <li class="dropdown-item" (click)="setSettings(gameSettings.normalMode)">
+          <span>Delay time: {{ gameSettings.normalMode.delay }} and field size: {{ gameSettings.normalMode.field }}</span>
+        </li>
+        <li class="dropdown-item" (click)="setSettings(gameSettings.hardMode)">
+          <span>Delay time: {{ gameSettings.hardMode.delay }} and field size: {{ gameSettings.hardMode.field }}</span>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
+  <div class="container-input">
+    <input
+      name="playerName"
+      class="container-name-form"
+      required
+      minlength="3"
+      maxlength="10"
+      [(ngModel)]="playerName"
+      type="text"
+      #playerNameInput="ngModel">
+  </div>
+  <div class="container-start-btn">
+    <button
+      type="button"
+      class="btn"
+      [disabled]="!playerNameInput.valid"
+      (click)="startGame(playerNameInput.value)">
+      Play
+    </button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+@import "src/assets/scss/vars";
+
+:host {
+  width: 100%;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+
+    .btn {
+      background-color: $primary-color;
+    }
+
+    .dropdown-menu {
+      li {
+        width: max-content;
+        padding: 5px;
+        margin-bottom: 5px;
+        &:hover {
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
