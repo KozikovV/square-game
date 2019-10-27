@@ -1,5 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {ModeInterface} from '../../models/game-settings.interface';
+import {interval, timer} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {GameSquareComponent} from '../game-square/game-square.component';
 
 @Component({
   selector: 'app-game-field',
@@ -9,6 +12,7 @@ import {ModeInterface} from '../../models/game-settings.interface';
 export class GameFieldComponent implements OnInit, OnChanges {
 
   @Input() gameMode: ModeInterface;
+  @ViewChildren(GameSquareComponent) gameSquareList: QueryList<GameSquareComponent>;
 
   gameField: any[];
   private notUsedSquares: any[];
@@ -20,9 +24,10 @@ export class GameFieldComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     //Todo remove
-    this.gameMode = {delay: 2000, field: 10};
+    this.gameMode = {delay: 1000, field: 10};
 
     this.createGameField();
+    this.timer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -52,12 +57,18 @@ export class GameFieldComponent implements OnInit, OnChanges {
   }
 
   get gridTemplate(): string {
-    return `repeat(${this.fieldSize}, minmax(50px, 1fr))`;
+    return `repeat(${this.fieldSize}, ${450 / this.fieldSize}px)`;
   }
 
   private clearGameField(): void {
     this.gameField = [];
     this.notUsedSquares = [];
+  }
+
+  private timer(): void {
+    interval(100)
+      .pipe(take(this.gameDelay / 100))
+      .subscribe(value => console.log((value + 1) * 100));
   }
 
 }
