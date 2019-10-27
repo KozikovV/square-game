@@ -4,7 +4,9 @@
     <app-end-game-screen
     [playerName]="playerName"
     [gameStage]="gameStage"></app-end-game-screen>
-    <app-game-field *ngIf="isGameStart"></app-game-field>
+    <app-game-field
+      *ngIf="true"
+      [gameMode]="gameMode"></app-game-field>
   </div>
   <div class="col content-right">
     <app-leader-board></app-leader-board>
