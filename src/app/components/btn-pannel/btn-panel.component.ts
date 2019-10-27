@@ -16,6 +16,7 @@ export class BtnPanelComponent {
   readonly gameSettings$: Observable<GameSettingsInterface>;
   playerName: string;
   private gameMode: ModeInterface;
+  showWarning: boolean;
 
   @ViewChild('playerNameInput', {static: true}) playerNameInput: HTMLInputElement;
 
@@ -23,16 +24,23 @@ export class BtnPanelComponent {
     private gameService: GameStorageService
   ) {
     this.gameSettings$ = this.gameService.getGameSettings();
+    this.showWarning = false;
   }
 
-  setSettings(gameMode: ModeInterface) {
+  setGameMode(gameMode: ModeInterface) {
     this.gameMode = gameMode;
+    this.showWarning = false;
   }
 
   startGame(playerName: string): void {
+    if (!this.gameMode) {
+      this.showWarning = true;
+      return;
+    }
     this.playGame.emit({playerName, gameMode: this.gameMode});
     this.playerName = '';
     this.gameMode = null;
+    this.showWarning = false;
   }
 
 }

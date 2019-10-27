@@ -2,12 +2,17 @@
 
 :host {
   width: 100%;
+  .wrn-message {
+    text-align: center;
+    font-size: 22px;
+    background-color: $warning-color;
+    padding: 20px;
+  }
   .container {
     display: flex;
     align-items: center;
     justify-content: space-around;
-
-
+    margin-bottom: 10px;
     .btn {
       background-color: $primary-color;
     }

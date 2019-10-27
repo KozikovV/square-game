@@ -13,13 +13,13 @@
         *dropdownMenu
         class="dropdown-menu"
         aria-labelledby="button-animated">
-        <li class="dropdown-item" (click)="setSettings(gameSettings.easyMode)">
+        <li class="dropdown-item" (click)="setGameMode(gameSettings.easyMode)">
           <span>Delay time: {{ gameSettings.easyMode.delay }} and field size: {{ gameSettings.easyMode.field }}</span>
         </li>
-        <li class="dropdown-item" (click)="setSettings(gameSettings.normalMode)">
+        <li class="dropdown-item" (click)="setGameMode(gameSettings.normalMode)">
           <span>Delay time: {{ gameSettings.normalMode.delay }} and field size: {{ gameSettings.normalMode.field }}</span>
         </li>
-        <li class="dropdown-item" (click)="setSettings(gameSettings.hardMode)">
+        <li class="dropdown-item" (click)="setGameMode(gameSettings.hardMode)">
           <span>Delay time: {{ gameSettings.hardMode.delay }} and field size: {{ gameSettings.hardMode.field }}</span>
         </li>
       </ul>
@@ -45,4 +45,7 @@
       Play
     </button>
   </div>
+</div>
+<div class="wrn-message" *ngIf="showWarning">
+  <h3>Please chose game mode</h3>
 </div>
