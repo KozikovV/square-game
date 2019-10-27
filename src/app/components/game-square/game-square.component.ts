@@ -1,15 +1,102 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {interval, Observable, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
+
+export enum SquareState {
+  FILED,
+  ACTIVE,
+  WAIT
+}
+
+export enum SquareColor {
+  GREEN = '#0bff0c',
+  BLUE = '#0668ff',
+  RED = '#ff2118',
+  WHITE = '#fff'
+}
 
 @Component({
   selector: 'app-game-square',
   templateUrl: './game-square.component.html',
   styleUrls: ['./game-square.component.scss']
 })
-export class GameSquareComponent implements OnInit {
+export class GameSquareComponent implements OnDestroy {
 
-  constructor() { }
+  squareState: SquareState;
+  squareColor: SquareColor;
+  squareOpacity: number;
 
-  ngOnInit() {
+  private readonly destroy$: Subject<void> = new Subject<void>();
+
+  @Input() squareId: string;
+  @Input() gameDelay: number;
+  @Output() squareFiled: EventEmitter<string> = new EventEmitter<string>();
+
+  @HostListener('click') onSquareClick(): void {
+    if (this.squareState === SquareState.ACTIVE) {
+      this.playerWin();
+    }
+  }
+
+  @HostBinding('style.backgroundColor') get squareBackgroundColor(): string {
+    return this.squareColor;
+  }
+
+  @HostBinding('style.opacity') get squareStyleOpacity(): number {
+    return this.squareOpacity;
+  }
+
+  constructor() {
+    this.squareState = SquareState.WAIT;
+    this.squareColor = SquareColor.WHITE;
+    this.squareOpacity = 0;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  startSquareTimer(): void {
+    this.setSquareToActiveState();
+    interval(100)
+      .pipe(
+        take(this.counter),
+        filter(() => this.squareState === SquareState.ACTIVE),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value) => {
+        this.squareOpacity += this.opacityPart;
+        if (((value + 1) * 100) === this.gameDelay) {
+          this.computerWin();
+        }
+      });
+  }
+
+  private setSquareToActiveState(): void {
+    this.squareColor = SquareColor.BLUE;
+    this.squareState = SquareState.ACTIVE;
+  }
+
+  private computerWin(): void {
+    this.squareColor = SquareColor.RED;
+    this.squareState = SquareState.FILED;
+    this.squareFiled.emit(this.squareId);
+  }
+
+  private playerWin(): void {
+    this.squareColor = SquareColor.GREEN;
+    this.squareState = SquareState.FILED;
+    this.squareOpacity = 1;
+    this.squareFiled.emit(this.squareId);
+  }
+
+  private get counter(): number {
+    return this.gameDelay / 100;
+  }
+
+  private get opacityPart(): number {
+    return 1 / this.counter;
   }
 
 }
