@@ -1,1 +1,6 @@
-<p>leader-board works!</p>
+<h1>Leader Board</h1>
+<ul>
+  <li *ngFor="let person of (leaderBoard$ | async)">
+    {{ person.winner }} - {{ person.date }}
+  </li>
+</ul>
