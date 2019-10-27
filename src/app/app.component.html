@@ -1,8 +1,10 @@
 <main class="content">
   <div class="col content-left">
-    <app-btn-panel></app-btn-panel>
-    <app-end-game-screen></app-end-game-screen>
-    <app-game-field></app-game-field>
+    <app-btn-panel (playGame)="onGameStart($event)"></app-btn-panel>
+    <app-end-game-screen
+    [playerName]="playerName"
+    [gameStage]="gameStage"></app-end-game-screen>
+    <app-game-field *ngIf="isGameStart"></app-game-field>
   </div>
   <div class="col content-right">
     <app-leader-board></app-leader-board>

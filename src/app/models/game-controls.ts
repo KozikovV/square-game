@@ -1,9 +1,14 @@
 import {ModeInterface} from './game-settings.interface';
 
-export enum GameControls {
+export enum GameStage {
   START_GAME,
   GAME,
   END_GAME
+}
+
+export enum WINNER {
+  COMPUTER,
+  PLAYER
 }
 
 export interface PlayGameInterface {

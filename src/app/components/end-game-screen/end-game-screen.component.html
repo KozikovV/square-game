@@ -1,1 +1,9 @@
-<p>end-game-screen works!</p>
+<ng-template #players>
+  <div class="players-screen">
+    <h2>Computer</h2> vs <h2>{{this.playerName}}</h2>
+  </div>
+</ng-template>
+
+<div class="endgame-screen" *ngIf="isGameFinish else players">
+  The winner is: <span *ngIf="isComputerWin">Computer</span><span *ngIf="!isComputerWin">{{this.playerName}}</span>
+</div>
