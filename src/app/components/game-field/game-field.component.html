@@ -1,3 +1,7 @@
+<div class="countdown" *ngIf="counter">
+  Game starts in {{ this.counter }}
+</div>
+
 <div class="game-field" [ngStyle]="{'grid-template-columns': gridTemplate, 'grid-template-rows': gridTemplate}">
   <div class="square" [ngClass]="square.squareId" *ngFor="let square of gameField" >
     <app-game-square [gameDelay]="gameDelay" [squareId]="square.squareId" (squareFiled)="onSquareFiled($event)"></app-game-square>

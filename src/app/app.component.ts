@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GameStage, PlayGameInterface} from './models/game-controls';
+import {GameStage, PlayGameInterface, WINNER} from './models/game-controls';
 import {ModeInterface} from './models/game-settings.interface';
 
 @Component({
@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   gameStage: GameStage;
   playerName: string;
   gameMode: ModeInterface;
+  winner: WINNER;
 
   constructor() {
     this.gameStage = GameStage.START_GAME;
@@ -29,5 +30,11 @@ export class AppComponent implements OnInit {
 
   get isGameStart(): boolean {
     return this.gameStage === GameStage.GAME;
+  }
+
+  onFinishGame(winner: number): void {
+    this.gameStage = GameStage.END_GAME;
+    this.gameMode = null;
+    this.winner = winner;
   }
 }

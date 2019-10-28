@@ -1,16 +1,23 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 import {ModeInterface} from '../../models/game-settings.interface';
-import {GameSquareComponent, SquareColor, SquareState} from '../game-square/game-square.component';
+import {GameSquareComponent, SquareColor} from '../game-square/game-square.component';
 import {interval} from 'rxjs';
 import {take} from 'rxjs/operators';
+import {WINNER} from '../../models/game-controls';
 
 export interface GameFieldInterface {
   squareId: string;
-}
-
-export enum WINNER {
-  COMPUTER,
-  PLAYER
 }
 
 @Component({
@@ -21,6 +28,7 @@ export enum WINNER {
 export class GameFieldComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() gameMode: ModeInterface;
+  @Output() gameFinished: EventEmitter<WINNER> = new EventEmitter<WINNER>();
   @ViewChildren(GameSquareComponent) gameSquareList: QueryList<GameSquareComponent>;
 
   gameField: GameFieldInterface[];
@@ -28,26 +36,31 @@ export class GameFieldComponent implements OnInit, OnChanges, AfterViewInit {
   private computersSquares: GameSquareComponent[];
   private playersSquares: GameSquareComponent[];
 
+  counter: number;
+
   constructor() {
     this.gameField = [];
     this.notUsedSquares = [];
     this.computersSquares = [];
     this.playersSquares = [];
+    this.counter = 0;
   }
 
   ngOnInit() {
-    this.gameMode = {delay: 2000, field: 5};
     this.createGameField();
   }
 
   ngAfterViewInit(): void {
     interval(1000)
-      .pipe(take(3))
-      .subscribe((value => {
-        if (value === 2 ) {
+      .pipe(take(4))
+      .subscribe(
+        () => this.counter++,
+        () => {},
+        () => {
+          this.counter = 0;
           this.nextRound();
         }
-      }));
+      );
   }
 
 
@@ -55,6 +68,7 @@ export class GameFieldComponent implements OnInit, OnChanges, AfterViewInit {
     if (changes.gameMode && !changes.gameMode.isFirstChange()) {
       this.clearGameField();
       this.createGameField();
+      this.ngAfterViewInit();
     }
   }
 
@@ -96,7 +110,7 @@ export class GameFieldComponent implements OnInit, OnChanges, AfterViewInit {
     this.notUsedSquares = this.notUsedSquares.filter((gameField: GameFieldInterface) => gameField.squareId !== squareId);
     this.writeFilledSquares(squareId);
     if (this.endgame) {
-      alert('game over');
+      this.onFinishGame();
       return;
     }
     this.nextRound();
@@ -125,9 +139,19 @@ export class GameFieldComponent implements OnInit, OnChanges, AfterViewInit {
     return [this.computersSquares, this.playersSquares].some((squaresList: GameSquareComponent[]) => squaresList.length === this.calculateHalfField);
   }
 
+  private get isComputerWin(): boolean {
+    return this.computersSquares.length === this.calculateHalfField;
+  }
+
   private nextRound(): void {
     const squareId = this.chooseRandomSquare().squareId;
     this.gameSquareList.find((square: GameSquareComponent) => square.squareId === squareId).startSquareTimer();
   }
+
+  private onFinishGame(): void {
+    this.isComputerWin ? this.gameFinished.emit(WINNER.COMPUTER) : this.gameFinished.emit(WINNER.PLAYER);
+  }
+
+
 
 }

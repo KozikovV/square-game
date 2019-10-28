@@ -3,10 +3,12 @@
     <app-btn-panel (playGame)="onGameStart($event)"></app-btn-panel>
     <app-end-game-screen
     [playerName]="playerName"
-    [gameStage]="gameStage"></app-end-game-screen>
+    [gameStage]="gameStage"
+    [winner]="winner"></app-end-game-screen>
     <app-game-field
-      *ngIf="true"
-      [gameMode]="gameMode"></app-game-field>
+      *ngIf="isGameStart"
+      [gameMode]="gameMode"
+      (gameFinished)="onFinishGame($event)"></app-game-field>
   </div>
   <div class="col content-right">
     <app-leader-board></app-leader-board>
