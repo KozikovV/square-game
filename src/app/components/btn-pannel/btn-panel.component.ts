@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {GameSettingsInterface, ModeInterface} from '../../models/game-settings.interface';
 import {GameStorageService} from '../../services/game-storage.service';
@@ -14,11 +14,10 @@ export class BtnPanelComponent {
   @Output() private playGame: EventEmitter<PlayGameInterface> = new EventEmitter<PlayGameInterface>();
 
   readonly gameSettings$: Observable<GameSettingsInterface>;
-  playerName: string;
   private gameMode: ModeInterface;
+  playerName: string;
   showWarning: boolean;
 
-  @ViewChild('playerNameInput', {static: true}) playerNameInput: HTMLInputElement;
 
   constructor(
     private gameService: GameStorageService

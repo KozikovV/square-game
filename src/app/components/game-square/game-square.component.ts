@@ -1,5 +1,5 @@
-import {Component, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {interval, Observable, Subject} from 'rxjs';
+import {Component, EventEmitter, HostBinding, HostListener, Input, OnDestroy, Output} from '@angular/core';
+import {interval, Subject} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';
 
 export enum SquareState {
@@ -22,9 +22,9 @@ export enum SquareColor {
 })
 export class GameSquareComponent implements OnDestroy {
 
-  squareState: SquareState;
-  squareColor: SquareColor;
-  squareOpacity: number;
+  private squareState: SquareState;
+  private squareColor: SquareColor;
+  private squareOpacity: number;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
 
@@ -34,7 +34,7 @@ export class GameSquareComponent implements OnDestroy {
 
   @HostListener('click') onSquareClick(): void {
     if (this.squareState === SquareState.ACTIVE) {
-      this.playerWin();
+      this.filedSquare(SquareColor.GREEN);
     }
   }
 
@@ -68,7 +68,7 @@ export class GameSquareComponent implements OnDestroy {
       .subscribe((value) => {
         this.squareOpacity += this.opacityPart;
         if (((value + 1) * 100) === this.gameDelay) {
-          this.computerWin();
+          this.filedSquare(SquareColor.RED);
         }
       });
   }
@@ -78,14 +78,8 @@ export class GameSquareComponent implements OnDestroy {
     this.squareState = SquareState.ACTIVE;
   }
 
-  private computerWin(): void {
-    this.squareColor = SquareColor.RED;
-    this.squareState = SquareState.FILED;
-    this.squareFiled.emit(this.squareId);
-  }
-
-  private playerWin(): void {
-    this.squareColor = SquareColor.GREEN;
+  private filedSquare(color: SquareColor): void {
+    this.squareColor = color;
     this.squareState = SquareState.FILED;
     this.squareOpacity = 1;
     this.squareFiled.emit(this.squareId);

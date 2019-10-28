@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {GameStorageService} from '../../services/game-storage.service';
 import {Observable} from 'rxjs';
 import {LeaderBoardInterface} from '../../models/game-settings.interface';
@@ -8,7 +8,7 @@ import {LeaderBoardInterface} from '../../models/game-settings.interface';
   templateUrl: './leader-board.component.html',
   styleUrls: ['./leader-board.component.scss']
 })
-export class LeaderBoardComponent implements OnInit {
+export class LeaderBoardComponent {
 
   readonly leaderBoard$: Observable<LeaderBoardInterface[]>;
 
@@ -16,9 +16,6 @@ export class LeaderBoardComponent implements OnInit {
     private gameStorageService: GameStorageService
   ) {
     this.leaderBoard$ = this.gameStorageService.getLeaderBoard();
-  }
-
-  ngOnInit() {
   }
 
 }
