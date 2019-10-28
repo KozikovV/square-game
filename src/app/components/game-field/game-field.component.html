@@ -4,6 +4,6 @@
 
 <div class="game-field" [ngStyle]="{'grid-template-columns': gridTemplate, 'grid-template-rows': gridTemplate}">
   <div class="square" [ngClass]="square.squareId" *ngFor="let square of gameField" >
-    <app-game-square [gameDelay]="gameDelay" [squareId]="square.squareId" (squareFiled)="onSquareFiled($event)"></app-game-square>
+    <app-game-square [gameDelay]="gameDelay" [squareId]="square.squareId" (squareFiled)="onSquareFiled()"></app-game-square>
   </div>
 </div>

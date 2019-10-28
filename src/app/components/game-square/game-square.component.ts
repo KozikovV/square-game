@@ -22,15 +22,15 @@ export enum SquareColor {
 })
 export class GameSquareComponent implements OnDestroy {
 
-  private squareState: SquareState;
-  private squareColor: SquareColor;
+  squareState: SquareState;
+  squareColor: SquareColor;
   private squareOpacity: number;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   @Input() squareId: string;
   @Input() gameDelay: number;
-  @Output() squareFiled: EventEmitter<string> = new EventEmitter<string>();
+  @Output() squareFiled: EventEmitter<void> = new EventEmitter<void>();
 
   @HostListener('click') onSquareClick(): void {
     if (this.squareState === SquareState.ACTIVE) {
@@ -82,7 +82,7 @@ export class GameSquareComponent implements OnDestroy {
     this.squareColor = color;
     this.squareState = SquareState.FILED;
     this.squareOpacity = 1;
-    this.squareFiled.emit(this.squareId);
+    this.squareFiled.emit();
   }
 
   private get counter(): number {

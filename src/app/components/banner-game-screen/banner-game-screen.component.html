@@ -5,5 +5,5 @@
 </ng-template>
 
 <div class="endgame-screen" *ngIf="isGameFinish else players">
-  The winner is: <span *ngIf="isComputerWin">Computer</span><span *ngIf="!isComputerWin">{{this.playerName}}</span>
+  <span *ngIf="isComputerWin">Computer</span><span *ngIf="!isComputerWin">{{this.playerName}}</span> won!
 </div>

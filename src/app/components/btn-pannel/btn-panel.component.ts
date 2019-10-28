@@ -17,6 +17,7 @@ export class BtnPanelComponent {
   private gameMode: ModeInterface;
   playerName: string;
   showWarning: boolean;
+  btnTitle: string;
 
 
   constructor(
@@ -24,6 +25,7 @@ export class BtnPanelComponent {
   ) {
     this.gameSettings$ = this.gameService.getGameSettings();
     this.showWarning = false;
+    this.btnTitle = 'Play';
   }
 
   setGameMode(gameMode: ModeInterface) {
@@ -40,6 +42,11 @@ export class BtnPanelComponent {
     this.playerName = '';
     this.gameMode = null;
     this.showWarning = false;
+  }
+
+  setNewGame(playerName: string): void {
+    this.btnTitle = 'Play again';
+    this.playerName = playerName;
   }
 
 }

@@ -1,13 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {GameStage, PlayGameInterface, WINNER} from './models/game-controls';
 import {ModeInterface} from './models/game-settings.interface';
+import {BtnPanelComponent} from './components/btn-pannel/btn-panel.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+
+  @ViewChild(BtnPanelComponent, {static: true}) private btnPanel: BtnPanelComponent;
 
   gameStage: GameStage;
   playerName: string;
@@ -16,10 +19,6 @@ export class AppComponent implements OnInit {
 
   constructor() {
     this.gameStage = GameStage.START_GAME;
-  }
-
-  ngOnInit(): void {
-
   }
 
   onGameStart(game: PlayGameInterface): void {
@@ -36,5 +35,6 @@ export class AppComponent implements OnInit {
     this.gameStage = GameStage.END_GAME;
     this.gameMode = null;
     this.winner = winner;
+    this.btnPanel.setNewGame(this.playerName);
   }
 }
