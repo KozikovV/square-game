@@ -3,10 +3,10 @@ import {GameStage, WINNER} from '../../models/game-controls';
 
 @Component({
   selector: 'app-end-game-screen',
-  templateUrl: './end-game-screen.component.html',
-  styleUrls: ['./end-game-screen.component.scss']
+  templateUrl: './banner-game-screen.component.html',
+  styleUrls: ['./banner-game-screen.component.scss']
 })
-export class EndGameScreenComponent implements OnInit {
+export class BannerGameScreenComponent implements OnInit {
 
   @Input() playerName: string;
   @Input() gameStage: GameStage;

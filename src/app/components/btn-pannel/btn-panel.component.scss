@@ -11,7 +11,7 @@
   .container {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-bottom: 10px;
     .btn {
       background-color: $primary-color;
@@ -25,6 +25,12 @@
         &:hover {
           background-color: $primary-color;
         }
+      }
+    }
+    &-input {
+      width: 50%;
+      input {
+        width: 100%;
       }
     }
   }
